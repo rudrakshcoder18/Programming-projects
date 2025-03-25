@@ -1,0 +1,15 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+url = 'https://edition.cnn.com/world'
+response = requests.get(url)
+
+soup = BeautifulSoup(response.text, 'html.parser')
+headlines = soup.find_all('h3')
+
+with open('headlines.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Headline'])
+    for headline in headlines:
+        writer.writerow([headline.get_text()])
